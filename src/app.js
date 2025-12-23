@@ -2,17 +2,24 @@ const express = require("express");
 
 const app = express();
 
-// app.use("/", (req, res) => {
-//   res.send("Hello from dashboard");
-// });
 
-app.use("/hello", (req, res) => {
-  res.send("Hello World!");
+
+app.get("/user", (req, res) => {
+    res.send({"firstName" : "Vijay"})
 });
 
-app.use("/goodbye", (req, res) => {
-  res.send("goodbye world");
+app.post("/user", (req, res) => {
+  res.send("Added successfully");
 });
+
+app.delete("/user", (req, res) => {
+  res.send("deleted successfully");
+});
+
+app.use("/user", (req, res) => {
+  res.send("Trial");
+});
+
 app.listen(3000, () => {
   console.log("server is successfully listening on server 3000");
 });
