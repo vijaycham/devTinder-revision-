@@ -2,27 +2,28 @@ const express = require("express");
 
 const app = express();
 
-// app.get("/user", (req, res) => {
-//    //console.log(req.query);
-//     res.send({ firstName : "Vijay"})
-// });
-
-app.get("/user/:userId", (req, res) => {
-  console.log({...req.params});
-  res.send({ firstName: "Vijay" });
-});
-
-app.post("/user", (req, res) => {
-  res.send("Added successfully");
-});
-
-app.delete("/user", (req, res) => {
-  res.send("deleted successfully");
-});
-
-app.use("/user", (req, res) => {
-  res.send("Trial");
-});
+app.use(
+  "/user",
+  (req, res, next) => {
+    console.log("middleware 1");
+    next();
+    //res.send("response 1");
+  },
+  (req, res, next) => {
+    console.log("middleware 2");
+    // res.send("response 2");
+    next()
+  },
+  (req, res, next) => {
+    console.log("middleware 3");
+    next();
+    //res.send("response 3");
+  },
+  (req, res, next) => {
+    console.log("middleware 4");
+    res.send("response 4");
+  }
+);
 
 app.listen(3000, () => {
   console.log("server is successfully listening on server 3000");
