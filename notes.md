@@ -61,5 +61,33 @@ Create a free  luster on mongoDB official website(atlas)
 install mongoose library
 connect your application to the Database "connection-url"/devTinder
 call the connectDB function and connect  to database before starting the server
-create a user schema
+create a user schema & model
+Create POST/signup API to  add data to database
+Push some documents using API calls from postman
+Error Handling using  try, catch
+
+JS object vs Json(difference)
+Add the express.json middleware to your app
+Make your signup API dynamic to recive from the end user
+User.find and User.findOne
+API- get user by email
+API- Feed API GET/feed get all the users form the database.
+API - get userByID
+create a delete used API
+Difference btween patch and PUT
+API- Update a User
+Explore the Mongoose Documenatation for models
+What are options in a  Model.findOneAndUpdate method, explore more about it 
+API - Update the user with email ID 
+
+Explore schematype  options from the documenatation
+add requried, uniqe, lowercase, min, minLength, trim
+add default 
+Create a custom validate function for gender
+Imporve the DB schema
+Added Timestamps
+
+
+
+
 
