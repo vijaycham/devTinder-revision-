@@ -105,6 +105,28 @@ app.delete("/users/:id", async (req, res) => {
 // Update user by ID
 app.patch("/users/:id", async (req, res) => {
   try {
+    const ALLOWED_UPDATES = [
+      "password",
+      "phoneNumber",
+      "age",
+      "gender",
+      "photoURL",
+      "bio",
+      "skills",
+    ];
+
+    const updates = Object.keys(req.body);
+
+    const isAllowed = updates.every((update) =>
+      ALLOWED_UPDATES.includes(update)
+    );
+    if (updates.length === 0) {
+      return res.status(400).json({ message: "No fields to update" });
+    }
+    if (!isAllowed) {
+      return res.status(400).json({ message: "Invalid update request" });
+    }
+
     const userId = req.params.id;
     const updateData = req.body;
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
@@ -124,18 +146,37 @@ app.patch("/users/:id", async (req, res) => {
 
 // update user by emailId
 app.patch("/users", async (req, res) => {
-  try {
-    const userEmail = req.query.emailId;
-    const updateData = req.body;
-    // const {userEmail, ...updateDate} = req.body;
-    if (!userEmail) {
+  try { 
+     const ALLOWED_UPDATES = [
+       "password",
+       "phoneNumber",
+       "age",
+       "gender",
+       "photoURL",
+       "bio",
+       "skills",
+     ];
+
+     const updates = Object.keys(req.body);
+
+     const isAllowed = updates.every((update) =>
+       ALLOWED_UPDATES.includes(update)
+     );
+     if (updates.length === 0) {
+       return res.status(400).json({ message: "No fields to update" });
+     }
+     if (!isAllowed) {
+       return res.status(400).json({ message: "Invalid update request" });
+     }
+
+    const { emailId, ...updateData } = req.body;
+    if (!emailId) {
       return res.status(400).json({ message: "emailId is required" });
     }
-    const updatedUser = await User.findOneAndUpdate(
-      { emailId: userEmail },
-      updateData,
-      { new: true, runValidators: true }
-    );
+    const updatedUser = await User.findOneAndUpdate({ emailId }, updateData, {
+      new: true,
+      runValidators: true,
+    });
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
