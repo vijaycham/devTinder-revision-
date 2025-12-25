@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/database");
 const app = express();
 const User = require("./models/user");
+const validateUserUpdate = require("./middlewares/validateUserUpdate");
 
 app.use(express.json());
 
@@ -103,30 +104,8 @@ app.delete("/users/:id", async (req, res) => {
 });
 
 // Update user by ID
-app.patch("/users/:id", async (req, res) => {
+app.patch("/users/:id", validateUserUpdate, async (req, res) => {
   try {
-    const ALLOWED_UPDATES = [
-      "password",
-      "phoneNumber",
-      "age",
-      "gender",
-      "photoURL",
-      "bio",
-      "skills",
-    ];
-
-    const updates = Object.keys(req.body);
-
-    const isAllowed = updates.every((update) =>
-      ALLOWED_UPDATES.includes(update)
-    );
-    if (updates.length === 0) {
-      return res.status(400).json({ message: "No fields to update" });
-    }
-    if (!isAllowed) {
-      return res.status(400).json({ message: "Invalid update request" });
-    }
-
     const userId = req.params.id;
     const updateData = req.body;
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
@@ -145,30 +124,8 @@ app.patch("/users/:id", async (req, res) => {
 });
 
 // update user by emailId
-app.patch("/users", async (req, res) => {
+app.patch("/users", validateUserUpdate,  async (req, res) => {
   try { 
-     const ALLOWED_UPDATES = [
-       "password",
-       "phoneNumber",
-       "age",
-       "gender",
-       "photoURL",
-       "bio",
-       "skills",
-     ];
-
-     const updates = Object.keys(req.body);
-
-     const isAllowed = updates.every((update) =>
-       ALLOWED_UPDATES.includes(update)
-     );
-     if (updates.length === 0) {
-       return res.status(400).json({ message: "No fields to update" });
-     }
-     if (!isAllowed) {
-       return res.status(400).json({ message: "Invalid update request" });
-     }
-
     const { emailId, ...updateData } = req.body;
     if (!emailId) {
       return res.status(400).json({ message: "emailId is required" });
