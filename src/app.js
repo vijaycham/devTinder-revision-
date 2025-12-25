@@ -3,6 +3,11 @@ const connectDB = require("./config/database");
 const app = express();
 
 
+app.use("/", (req,res)=> {
+  res.send("Hello World");
+})
+
+
 const startServer = async () => {
   try{
     await connectDB();
