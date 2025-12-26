@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const { Schema } = mongoose;
 
@@ -21,12 +22,22 @@ const userSchema = new Schema(
       unique: true,
       lowercase: true,
       trim: true,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Invalid email format");
+        }
+      }
     },
     password: {
       type: String,
       required: true,
       minLength: 8,
       trim: true,
+      validate(value) {
+        if(!validator.isStrongPassword(value)){
+          throw new Error("Password is not strong enough");
+        }
+      }
     },
     phoneNumber: {
       type: String,
@@ -49,6 +60,11 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       default: "",
+      validator(value) {
+        if(!validator.isURL(value)){
+          throw new Error("Invalid URL format");
+        }
+      }
     },
     bio: {
       type: String,

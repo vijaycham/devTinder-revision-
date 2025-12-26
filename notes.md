@@ -85,7 +85,12 @@ add requried, uniqe, lowercase, min, minLength, trim
 add default 
 Create a custom validate function for gender
 Imporve the DB schema
-Added Timestamps
+Added Timestamps to the userSchema
+Add API level validation on patch request & signup post API
+Data sanitizing - add API validation for each field
+Install validator
+Explore validator lib and use validator for password, email and photoUrl
+Never Trust req.body :-) 
 
 
 
